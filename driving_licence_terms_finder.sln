@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivingLicenceTermsFinder", "DrivingLicenceTermsFinder\DrivingLicenceTermsFinder.csproj", "{269B3833-BBDA-4354-A945-2056715C050F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{269B3833-BBDA-4354-A945-2056715C050F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269B3833-BBDA-4354-A945-2056715C050F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269B3833-BBDA-4354-A945-2056715C050F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269B3833-BBDA-4354-A945-2056715C050F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
