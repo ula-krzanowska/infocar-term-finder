@@ -41,56 +41,12 @@ namespace DrivingLicenceTermsFinder
         
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Podaj ID wordu:");
-            string userID = Console.ReadLine();
+            var wordId = ReadStringFromUser("wordId", allowedWords);
+            var userCategory = ReadStringFromUser("category", allowedCategories);
+            var startDate = ReadDateFromUser("start");
+            var endDate = ReadDateFromUser("end");
             
-            while (allowedWords.Contains(userID) == false)
-            {
-                Console.WriteLine("Błędne ID");
-                Console.WriteLine("Podaj ID:");
-                userID = Console.ReadLine();
-            }
             
-            Console.WriteLine("Podaj kategorię:");
-            string userCategory = Console.ReadLine();
-            
-            while (allowedCategories.Contains(userCategory) == false)
-            {
-                Console.WriteLine("Błędna kategoria");
-                Console.WriteLine("Podaj kategorię:");
-                userCategory = Console.ReadLine();
-            }
-            
-            Console.WriteLine("Podaj datę początkową w formacie DD/MM/RRRR:");
-            string userDateRangeStart = Console.ReadLine();
-            bool startDateSuccess = DateTime.TryParse(userDateRangeStart, out DateTime startDate);
-
-            while (startDateSuccess == false)
-            {
-                Console.WriteLine("Błędny format daty");
-                Console.WriteLine("Podaj datę:");
-                userDateRangeStart = Console.ReadLine();
-                startDateSuccess = DateTime.TryParse(userDateRangeStart, out startDate);
-            }
-
-            
-            Console.WriteLine("Podaj datę końcową w formacie DD/MM/RRRR:");
-            string userDateRangeEnd = Console.ReadLine();
-            bool endDateSuccess = DateTime.TryParse(userDateRangeEnd, out DateTime endDate);
-
-            while (endDateSuccess == false)
-            {
-                Console.WriteLine("Błędny format daty");
-                Console.WriteLine("Podaj datę:");
-                userDateRangeEnd = Console.ReadLine();
-                endDateSuccess = DateTime.TryParse(userDateRangeEnd, out endDate);
-            }
-
-            // 1. bierzemy poczatkowa date
-            //     2. w petli dodajemy po kazdym kroku 1 miesiac do DataType
-            //         3. sprawdzamy czy nowo utworzona data jest w tym samym miesiacu i roku co koncowa. Jezeli tak to konczymy
-            //             4. w kazdum przejsciu petli pobieramy terminy
-
             int monthsBetween = (endDate.Year - startDate.Year) * 12 + (endDate.Month - startDate.Month);
             
             for (int i = 0; i <= monthsBetween; i++)
@@ -106,11 +62,9 @@ namespace DrivingLicenceTermsFinder
 
                 int m = dateWithNewMonth.Month;
                 int y = dateWithNewMonth.Year;
-                        
-                    
                     
                 HttpClient client = new HttpClient();
-                string requestUri = $"https://info-car.pl/services/word/ajax/getSchedule?wordId={userID}&examCategory={userCategory}&month={y}-{m}&_=1590592537434";
+                string requestUri = $"https://info-car.pl/services/word/ajax/getSchedule?wordId={wordId}&examCategory={userCategory}&month={y}-{m}&_=1590592537434";
                 //Console.WriteLine(requestUri);
 
                 HttpResponseMessage response = await client.GetAsync(requestUri);
@@ -131,7 +85,6 @@ namespace DrivingLicenceTermsFinder
                 }
                 sortedDates.Sort();
                 sortedDates.ForEach(d => Console.WriteLine(d));
-
             }
             
             // Console.WriteLine(endDate.Subtract(startDate));
@@ -148,6 +101,38 @@ namespace DrivingLicenceTermsFinder
             // {
             //    
             //     Thread.Sl
+        }
+
+        private static DateTime ReadDateFromUser(string dateName)
+        {
+            Console.WriteLine($"Define {dateName} date [DD/MM/YYYY]:");
+            string userDateRange = Console.ReadLine();
+            bool dateSuccess = DateTime.TryParse(userDateRange, out DateTime date);
+
+            while (dateSuccess == false)
+            {
+                Console.WriteLine($"Wrong {dateName} format.");
+                Console.WriteLine($"Define {dateName} date [DD/MM/YYYY]:");
+                userDateRange = Console.ReadLine();
+                dateSuccess = DateTime.TryParse(userDateRange, out date);
+            }
+
+            return date;
+        }
+
+        private static string ReadStringFromUser(string itemName, List<string> allowedItems)
+        {
+            Console.WriteLine($"Define {itemName}:");
+            string userID = Console.ReadLine();
+
+            while (allowedItems.Contains(userID) == false)
+            {
+                Console.WriteLine($"Wrong {itemName}.");
+                Console.WriteLine($"Define {itemName}:");
+                userID = Console.ReadLine();
+            }
+
+            return userID;
         }
     }
 }
