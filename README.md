@@ -11,6 +11,6 @@ This bot scans periodically API and detects if there are available terms.
 It will notify with sound and print dates and times of exams for a given category and dates range
 
 ## Usage
-Simply dotnet run and follow steps
+Simply dotnet run and follow steps (video below)
 
 [![video](https://img.youtube.com/vi/mnEHKkGDIX4/0.jpg)](https://www.youtube.com/watch?v=mnEHKkGDIX4)
